@@ -73,12 +73,21 @@ for (let i=0; i<data.length; ++i) {
           $${qty * price}
            </li>`
      }
+        
+     
       itemList.innerHTML = itemStr
 
       //console.log(`Total in cart $${getTotal()}`)
       cartTotal.innerHTML = (`Total in cart $${getTotal()}`)
     }
+    const all_items_button = Array.from(document.querySelectorAll('button'))
+    all_items_button.forEach(elt => elt.addEventListener('click', () => {
+  addItem(elt.getAttribute('id'), elt.getAttribute('data-price'))
+  showItems()
+}))
+console.log(all_items_button)
 
+    
     // ---------------------------------------------
      // Get Qty
      function getQty(){
