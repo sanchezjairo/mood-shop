@@ -32,7 +32,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 120px);
     grid-column-gap: 200px;
-    margin-left: 90px;
+    margin-left: 50px;
     margin-top: 5px;
   }
 
