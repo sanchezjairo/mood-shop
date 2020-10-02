@@ -3,7 +3,7 @@ const itemsContainer = document.getElementById('items')
 const itemList = document.getElementById('item-list')
 const cartQty = document.getElementById('cart-qty')
 const cartTotal = document.getElementById('cart-total')
- itemList.innerHTML = '<li> Hello World</li>'
+ 
 
 for (let i=0; i<data.length; ++i) {
     
@@ -37,13 +37,44 @@ for (let i=0; i<data.length; ++i) {
 }
  const cart = []
 
- const obj = []
+ //-----------------------------------------------
+ // handle change events on update input
+  itemList.onchange = function(e) {
+    if (e.target && e.target.classList.contains('update')) {
+      const name = e.target.dataset.name
+      const qty = parseInt(e.target.value)
+      updateCart(name, qty)
+    }
+  }
+
+ //----------------------------------------------
+ //Handle clicks on list
+ itemList.onclick = function(e) {
+  //  console.log("clicked list")
+  //  console.log(e.target)
+  if (e.target && e.target.classList.contains('remove')){
+    const name = e.target.dataset.name // data-name=""
+     removeItem(name)
+  }
+     else if (e.target && e.target.classList.contains('add')){
+    const name = e.target.dataset.name 
+     addItem(name)
+  }
+     else if (e.target && e.target.classList.contains('remove-one')){
+      const name = e.target.dataset.name
+      removeItem(name, 1)
+  }
+ 
+}
+//-----------------------------------------------
+// handle add form submit
 // ----------------------------------------------
 // Add Item
  function addItem(name, price) {
     for (let i = 0; i < cart.length; i += 1 ){
         if (cart[i].name === name) {
           cart[i].qty += 1
+          showItems()
           return
         }
     }
@@ -69,8 +100,12 @@ for (let i=0; i<data.length; ++i) {
           itemStr += 
           `<li> 
           ${name} 
-          $${price} x ${qty} = 
-          $${qty * price}
+           $${price} x ${qty} = 
+           $${(qty * price).toFixed(2)}
+          <button class="remove" data-name="${name}">Remove</button>           
+          <button class="add" data-name="${name}"> + </button>
+          <button class="remove-one" data-name="${name}">-</button>
+          <input class="update" type="number" data-name="${name}">
            </li>`
      }
         
@@ -115,22 +150,37 @@ console.log(all_items_button)
              if(cart[i].qty < 1 || qty === 0){
                  cart.splice(i, 1,)
              }
+             showItems()
              return
          }
       }
     }
+    //-------------------------------------------
+    function updateCart(name, qty){
+       for (let i = 0; i < cart.length; i += 1) {
+        if (cart[i].name === name){
+          cart[i].qty = qty
+          if(cart[i].qty < 1 || qty === 0){
+            cart.splice(i, 1,)
+          }
+          showItems()
+          return
+          
+       }
+      } 
+     }
     //--------------------------------------------
- addItem('Apple', 0.99)
- addItem('orange', 1.29)
- addItem('cucumber', 2.00)
- addItem('Apple', 0.99)
- addItem('Banana', 0.50)
- addItem('Apple', 0.99)
- addItem('orange', 1.29)
+//  addItem('Apple', 0.99)
+//  addItem('orange', 1.29)
+//  addItem('cucumber', 2.00)
+//  addItem('Apple', 0.99)
+//  addItem('Banana', 0.50)
+//  addItem('Apple', 0.99)
+//  addItem('orange', 1.29)
  
 
- showItems()
+ //showItems()
 
- removeItem('Apple', 1)
- removeItem('Banana')
- showItems()
+//  removeItem('Apple', 1)
+//  removeItem('Banana')
+//  showItems()
